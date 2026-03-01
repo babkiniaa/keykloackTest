@@ -11,10 +11,10 @@ import java.util.Date;
 public class SoldCars extends Car {
 
     @Column(name = "seller_id_old", nullable = false)
-    public Long sellerIdOld;
+    public Customer sellerIdOld;
 
     @Column(name = "seller_id_new", nullable = false)
-    public Long sellerIdNew;
+    public Customer sellerIdNew;
 
     @Column(name = "date_sold", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

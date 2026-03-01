@@ -34,8 +34,9 @@ public class Car extends PanacheEntity {
     @Column(name = "amount", precision = 10, scale = 2)
     public Long amount;
 
-    @Column(name = "id_dealer_ship", nullable = false)
-    public Long idDealerShip;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dealer_ship_id", nullable = false)
+    public CarDealerShip idDealerShip;
 
     @Column(name = "date_publication")
     @Temporal(TemporalType.TIMESTAMP)

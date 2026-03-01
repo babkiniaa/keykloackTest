@@ -1,4 +1,4 @@
-package org.babkiniaa.dto.dealer.response;
+package org.babkiniaa.dto.resources.dealer.response;
 
 public class Dealers {
 }

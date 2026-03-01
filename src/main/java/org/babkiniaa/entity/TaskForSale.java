@@ -11,16 +11,13 @@ public class TaskForSale extends Car {
     @Column(name = "status", length = 50, nullable = false)
     public String status = "pending";
 
-    @Column(name = "dealer_id", nullable = false)
-    public Long dealerId;
-
     @Column(name = "seller_id")
-    public Long sellerId;
+    public Customer sellerId;
 
     @Column(name = "request_date")
     @Temporal(TemporalType.TIMESTAMP)
     public java.util.Date requestDate = new java.util.Date();
-    
+
     @Column(name = "comment", length = 500)
     @Comment("Комментарий к заявке")
     public String comment;

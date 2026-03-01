@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import org.babkiniaa.convector.LongToBooleanConverter;
 import org.hibernate.annotations.Comment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "dealer_ship")
 @Comment("Автосалон")
@@ -33,5 +36,15 @@ public class CarDealerShip extends PanacheEntity {
     @Convert(converter = LongToBooleanConverter.class)
     @Column(name = "is_active", nullable = false, length = 200)
     public Boolean isActive = true;
+
+    @OneToMany(mappedBy = "dealerShip", fetch = FetchType.LAZY)
+    public List<Car> carsInDealer = new ArrayList<>();
+
+    public static CarDealerShip findDealerByNameAndCity(String name, String city) {
+        return find("city = ?1 and name = ?2", city, name).stream()
+                .findFirst()
+                .map(ent -> (CarDealerShip) ent)
+                .orElse(null);
+    }
 
 }

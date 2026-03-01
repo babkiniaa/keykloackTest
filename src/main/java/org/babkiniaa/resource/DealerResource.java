@@ -5,14 +5,16 @@ import io.quarkus.security.Authenticated;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-import org.babkiniaa.dto.dealer.request.CarSale;
-import org.babkiniaa.dto.dealer.response.Cars;
-import org.babkiniaa.dto.dealer.response.Dealers;
+import org.babkiniaa.dto.resources.dealer.request.CarSale;
+import org.babkiniaa.dto.resources.dealer.response.Cars;
+import org.babkiniaa.dto.resources.dealer.response.Dealers;
+import org.babkiniaa.service.MainService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +24,21 @@ import java.util.List;
 @Authenticated
 public class DealerResource {
 
+    @Inject
+    MainService mainService;
+
     @POST
     @Path("/sale/car")
     @RolesAllowed({"saler", "admin", "dealer"})
-    public Response saleMyCar(CarSale carForSale) {
+    public Response saleMyCar(CarSale car) {
+        mainService.createTaskForSaleCar(car);
+        return Response.status(200).build();
+    }
+
+    @POST
+    @Path("/car/approve/{id}")
+    @RolesAllowed({"admin", "dealer"})
+    public Response approveCar(@QueryParam("id") Long id) {
         return Response.status(200).build();
     }
 

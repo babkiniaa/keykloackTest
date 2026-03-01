@@ -26,7 +26,7 @@ public class Customer extends PanacheEntity {
     @Column(name = "phone", nullable = false, length = 20)
     public String phone;
 
-    @Column(name = "email", length = 100)
+    @Column(name = "email", unique = true, length = 100)
     public String email;
 
     @Column(name = "passport_series", length = 4)
@@ -56,4 +56,10 @@ public class Customer extends PanacheEntity {
     @Temporal(TemporalType.TIMESTAMP)
     public java.util.Date createdAt = new java.util.Date();
 
+    public static Customer findCustomerByEmail(String email) {
+        return find("email = ?1", email).stream()
+                .findFirst()
+                .map(ent -> (Customer) ent)
+                .orElse(null);
+    }
 }
