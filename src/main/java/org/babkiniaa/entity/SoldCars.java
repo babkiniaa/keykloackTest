@@ -13,8 +13,11 @@ public class SoldCars extends Car {
     @Column(name = "seller_id_old", nullable = false)
     public Customer sellerIdOld;
 
-    @Column(name = "seller_id_new", nullable = false)
+    @Column(name = "seller_id_new")
     public Customer sellerIdNew;
+
+    @Column(name = "status", nullable = false)
+    public String status;
 
     @Column(name = "date_sold", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)

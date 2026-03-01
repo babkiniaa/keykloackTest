@@ -11,6 +11,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
+import org.babkiniaa.dto.resources.dealer.request.BoughtCar;
 import org.babkiniaa.dto.resources.dealer.request.CarSale;
 import org.babkiniaa.dto.resources.dealer.response.Cars;
 import org.babkiniaa.dto.resources.dealer.response.Dealers;
@@ -39,13 +40,15 @@ public class DealerResource {
     @Path("/car/approve/{id}")
     @RolesAllowed({"admin", "dealer"})
     public Response approveCar(@QueryParam("id") Long id) {
+        mainService.approveTaskForCarSale(id);
         return Response.status(200).build();
     }
 
     @POST
-    @Path("/car/bought/{id}")
+    @Path("/car/bought")
     @RolesAllowed({"admin", "dealer"})
-    public Response boughtCar(@QueryParam("id") Long id) {
+    public Response boughtCar(BoughtCar car) {
+        mainService.boughtCar(car);
         return Response.status(200).build();
     }
 
@@ -53,6 +56,7 @@ public class DealerResource {
     @Path("/car/remove/{id}")
     @RolesAllowed({"admin", "dealer"})
     public Response removeCarFromSale(@QueryParam("id") Long id) {
+        mainService.removeCar(id);
         return Response.status(200).build();
     }
 

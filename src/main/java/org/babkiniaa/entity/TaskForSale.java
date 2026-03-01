@@ -3,13 +3,15 @@ package org.babkiniaa.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Comment;
 
+import static org.babkiniaa.constant.Constant.PENDING;
+
 @Entity
 @Table(name = "sale_task")
 @Comment("Заявка на выставку машину на продажу в определенный салон")
 public class TaskForSale extends Car {
 
     @Column(name = "status", length = 50, nullable = false)
-    public String status = "pending";
+    public String status = PENDING;
 
     @Column(name = "seller_id")
     public Customer sellerId;
