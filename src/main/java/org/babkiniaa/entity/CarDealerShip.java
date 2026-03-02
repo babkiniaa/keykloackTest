@@ -7,6 +7,7 @@ import org.hibernate.annotations.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "dealer_ship")
@@ -45,6 +46,12 @@ public class CarDealerShip extends PanacheEntity {
                 .findFirst()
                 .map(ent -> (CarDealerShip) ent)
                 .orElse(null);
+    }
+
+    public static List<CarDealerShip> findDealerByCity(String city) {
+        return find("city = ?1", city).stream()
+                .map(ent -> (CarDealerShip) ent)
+                .collect(Collectors.toList());
     }
 
 }

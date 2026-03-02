@@ -15,9 +15,9 @@ import org.babkiniaa.dto.resources.dealer.request.BoughtCar;
 import org.babkiniaa.dto.resources.dealer.request.CarSale;
 import org.babkiniaa.dto.resources.dealer.response.Cars;
 import org.babkiniaa.dto.resources.dealer.response.Dealers;
+import org.babkiniaa.entity.CarForSale;
 import org.babkiniaa.service.MainService;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Path("/dealer")
@@ -64,14 +64,14 @@ public class DealerResource {
     @Path("/get/{city}")
     @PermitAll
     public List<Dealers> getDealerByCity(@QueryParam("city") String city) {
-        return Arrays.asList(new Dealers());
+        return mainService.getDealersInCity(city);
     }
 
     @GET
     @Path("/get/cars/{city}")
     @PermitAll
     public List<Cars> getCarsByCity(@QueryParam("city") String city) {
-        return Arrays.asList(new Cars());
+        return mainService.getCarsInCity(city);
     }
 
 }

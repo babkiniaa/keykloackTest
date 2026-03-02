@@ -7,22 +7,34 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.babkiniaa.dto.resources.dealer.request.BoughtCar;
 import org.babkiniaa.dto.resources.dealer.request.CarSale;
+import org.babkiniaa.dto.resources.dealer.response.Cars;
+import org.babkiniaa.dto.resources.dealer.response.Dealers;
 import org.babkiniaa.entity.*;
 import org.babkiniaa.mappers.CarMapper;
+import org.babkiniaa.mappers.DealerMapper;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static org.babkiniaa.constant.Constant.BOUGHT;
 
-@ApplicationScoped
 @Slf4j
+@ApplicationScoped
 public class DealerSaleService {
 
     private final CarMapper carMapper;
 
+    private final DealerMapper dealerMapper;
+
     private final EntityManager entityManager;
 
     @Inject
-    public DealerSaleService(CarMapper carMapper, EntityManager entityManager) {
+    public DealerSaleService(CarMapper carMapper,
+                             DealerMapper dealerMapper,
+                             EntityManager entityManager) {
         this.carMapper = carMapper;
+        this.dealerMapper = dealerMapper;
         this.entityManager = entityManager;
     }
 
@@ -79,6 +91,27 @@ public class DealerSaleService {
 
         entityManager.remove(car);
     }
+
+    public List<Dealers> getDealersSaleInCity(String city) {
+        List<CarDealerShip> ships = CarDealerShip.findDealerByCity(city);
+        return ships.stream()
+                .map(dealerMapper::map)
+                .toList();
+    }
+
+    public List<Cars> getCarInCity(String city) {
+        List<CarDealerShip> carDealerShip = CarDealerShip.findDealerByCity(city);
+        List<CarForSale> cars = new ArrayList<>();
+
+        carDealerShip.forEach(car -> {
+            cars.addAll((Collection<? extends CarForSale>) car.carsInDealer);
+        });
+
+        return cars.stream()
+                .map(carMapper::mapCarForSaleToCars)
+                .toList();
+    }
+
 
     public CarDealerShip getDealerShipByNameAndCity(String name, String city) {
         CarDealerShip dealer = CarDealerShip.findDealerByNameAndCity(name, city);
