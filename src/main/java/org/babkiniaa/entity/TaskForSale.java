@@ -13,7 +13,8 @@ public class TaskForSale extends Car {
     @Column(name = "status", length = 50, nullable = false)
     public String status = PENDING;
 
-    @Column(name = "seller_id")
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
     public Customer sellerId;
 
     @Column(name = "request_date")

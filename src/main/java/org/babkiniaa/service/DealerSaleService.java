@@ -14,7 +14,6 @@ import org.babkiniaa.mappers.CarMapper;
 import org.babkiniaa.mappers.DealerMapper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.babkiniaa.constant.Constant.BOUGHT;
@@ -44,7 +43,7 @@ public class DealerSaleService {
         TaskForSale task;
 
         task = carMapper.mapCarSaleToTaskForSale(car);
-        task.idDealerShip = getDealerShipByNameAndCity(car.getDealerSaleName(), car.getDealerSaleCity());
+        task.dealerShip = getDealerShipByNameAndCity(car.getDealerSaleName(), car.getDealerSaleCity());
         task.sellerId = getCustomerByEmail(car.getEmailCustomer());
 
         entityManager.persist(task);
@@ -104,7 +103,7 @@ public class DealerSaleService {
         List<CarForSale> cars = new ArrayList<>();
 
         carDealerShip.forEach(car -> {
-            cars.addAll((Collection<? extends CarForSale>) car.carsInDealer);
+            car.carsInDealer.forEach(carInDealer -> cars.add((CarForSale) carInDealer));
         });
 
         return cars.stream()

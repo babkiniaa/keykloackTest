@@ -14,11 +14,6 @@ import java.util.stream.Collectors;
 @Comment("Автосалон")
 public class CarDealerShip extends PanacheEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    public Long id;
-
     @Column(name = "city", nullable = false, length = 100)
     public String city;
 

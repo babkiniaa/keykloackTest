@@ -26,8 +26,7 @@ public interface CarMapper {
     @Mapping(target = "urlPhoto", source = "urlPhoto")
     @Mapping(target = "mileage", source = "mileage")
     @Mapping(target = "amount", source = "amount")
-    @Mapping(target = "comment", source = "comment")
-    @Mapping(target = "idDealerShip", source = "idDealerShip")
+    @Mapping(target = "dealerShip", source = "dealerShip")
     @Mapping(target = "sellerIdOld", source = "sellerId")
     CarForSale mapTaskForSaleToCarForSale(TaskForSale car);
 
@@ -37,8 +36,7 @@ public interface CarMapper {
     @Mapping(target = "urlPhoto", source = "urlPhoto")
     @Mapping(target = "mileage", source = "mileage")
     @Mapping(target = "amount", source = "amount")
-    @Mapping(target = "comment", source = "comment")
-    @Mapping(target = "idDealerShip", source = "idDealerShip")
+    @Mapping(target = "dealerShip", source = "dealerShip")
     @Mapping(target = "sellerIdOld", source = "sellerIdOld")
     SoldCars mapCarForSaleToSoldCars(CarForSale car);
 
@@ -48,7 +46,6 @@ public interface CarMapper {
     @Mapping(target = "urlPhoto", source = "urlPhoto")
     @Mapping(target = "mileage", source = "mileage")
     @Mapping(target = "amount", source = "amount")
-    @Mapping(target = "comment", source = "comment")
     Cars mapCarForSaleToCars(CarForSale car);
 
 }

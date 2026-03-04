@@ -1,8 +1,6 @@
 package org.babkiniaa.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.Comment;
 
 @Entity
@@ -10,7 +8,8 @@ import org.hibernate.annotations.Comment;
 @Comment("Машины доступные для продажи")
 public class CarForSale extends Car {
 
-    @Column(name = "seller_id_old", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "seller_id_old", nullable = false)
     public Customer sellerIdOld;
 
 }

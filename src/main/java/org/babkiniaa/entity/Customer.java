@@ -9,11 +9,6 @@ import org.hibernate.annotations.Comment;
 @Comment("Покупатели автомобилей")
 public class Customer extends PanacheEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    public Long id;
-
     @Column(name = "first_name", nullable = false, length = 100)
     public String firstName;
 

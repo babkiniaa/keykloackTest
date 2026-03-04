@@ -6,12 +6,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.JOINED)
+@Entity
 public class Car extends PanacheEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    public Long id;
 
     @Column(name = "description", length = 1000)
     public String description;
@@ -36,7 +32,7 @@ public class Car extends PanacheEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealer_ship_id", nullable = false)
-    public CarDealerShip idDealerShip;
+    public CarDealerShip dealerShip;
 
     @Column(name = "date_publication")
     @Temporal(TemporalType.TIMESTAMP)

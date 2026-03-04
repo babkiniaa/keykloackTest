@@ -10,10 +10,12 @@ import java.util.Date;
 @Comment("Проданные автомобили")
 public class SoldCars extends Car {
 
-    @Column(name = "seller_id_old", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "seller_id_old", nullable = false)
     public Customer sellerIdOld;
 
-    @Column(name = "seller_id_new")
+    @ManyToOne
+    @JoinColumn(name = "seller_id_new")
     public Customer sellerIdNew;
 
     @Column(name = "status", nullable = false)
