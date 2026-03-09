@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
+@Table(name = "Car")
 public class Car extends PanacheEntity {
 
     @Column(name = "description", length = 1000)

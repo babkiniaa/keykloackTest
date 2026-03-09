@@ -15,7 +15,6 @@ import org.babkiniaa.dto.resources.dealer.request.BoughtCar;
 import org.babkiniaa.dto.resources.dealer.request.CarSale;
 import org.babkiniaa.dto.resources.dealer.response.Cars;
 import org.babkiniaa.dto.resources.dealer.response.Dealers;
-import org.babkiniaa.entity.CarForSale;
 import org.babkiniaa.service.MainService;
 
 import java.util.List;
