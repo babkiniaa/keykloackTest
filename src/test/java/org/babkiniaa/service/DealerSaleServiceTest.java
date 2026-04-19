@@ -4,6 +4,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.EntityManager;
 import org.babkiniaa.dto.resources.dealer.request.BoughtCar;
 import org.babkiniaa.dto.resources.dealer.request.CarSale;
+import org.babkiniaa.dto.resources.dealer.response.Cars;
+import org.babkiniaa.dto.resources.dealer.response.Dealers;
 import org.babkiniaa.entity.*;
 import org.babkiniaa.mappers.CarMapper;
 import org.babkiniaa.mappers.DealerMapper;
@@ -16,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
@@ -123,17 +126,66 @@ class DealerSaleServiceTest {
 
     @Test
     void getDealersSaleInCity() {
+        String city = "Viborg";
+        try (MockedStatic<CarDealerShip> carDealerMock = Mockito.mockStatic(CarDealerShip.class)) {
+            carDealerMock.when(() -> CarDealerShip.findDealerByCity(Mockito.anyString())).thenReturn(List.of(new CarDealerShip()));
+            Mockito.when(dealerMapper.map(Mockito.any())).thenReturn(new Dealers());
+
+            Assertions.assertEquals(1, dealerSaleService.getDealersSaleInCity(city).size());
+        }
     }
 
     @Test
     void getCarInCity() {
+        String city = "Totma";
+        CarDealerShip carDealerShip = new CarDealerShip();
+        carDealerShip.carsInDealer = List.of(new Car());
+        try (MockedStatic<CarDealerShip> carDealerMock = Mockito.mockStatic(CarDealerShip.class)) {
+            carDealerMock.when(() -> CarDealerShip.findDealerByCity(Mockito.anyString())).thenReturn(List.of(carDealerShip));
+            Mockito.when(carMapper.mapCarForSaleToCars(Mockito.any())).thenReturn(new Cars());
+            Assertions.assertEquals(1, dealerSaleService.getCarInCity(city).size());
+        }
     }
 
-    @Test
-    void getDealerShipByNameAndCity() {
+    @ParameterizedTest
+    @MethodSource("dealerShipSource")
+    void getDealerShipByNameAndCity(Class<Exception> clazz, String name, String city) {
+        try (MockedStatic<CarDealerShip> carDealerMock = Mockito.mockStatic(CarDealerShip.class)) {
+            carDealerMock.when(() -> CarDealerShip.findDealerByNameAndCity(Mockito.anyString(), Mockito.anyString())).thenReturn(new CarDealerShip());
+
+            if (clazz == null) {
+                Assertions.assertNotNull(dealerSaleService.getDealerShipByNameAndCity(name, city));
+            } else {
+                Assertions.assertThrows(clazz, () -> dealerSaleService.getDealerShipByNameAndCity(name, city));
+            }
+        }
     }
 
-    @Test
-    void getCustomerByEmail() {
+    static Stream<Arguments> dealerShipSource() {
+        return Stream.of(
+                Arguments.of(RuntimeException.class, "Ty-ty", null),
+                Arguments.of(null, "Ty-ty", "Barnayl")
+        );
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("customerByEmailSource")
+    void getCustomerByEmail(Class<Exception> clazz, String email) {
+        try (MockedStatic<Customer> customerMock = Mockito.mockStatic(Customer.class)) {
+            customerMock.when(() -> Customer.findCustomerByEmail(Mockito.anyString())).thenReturn(new Customer());
+            if (clazz == null) {
+                Assertions.assertNotNull(dealerSaleService.getCustomerByEmail(email));
+            } else {
+                Assertions.assertThrows(clazz, () -> dealerSaleService.getDealersSaleInCity(email));
+            }
+        }
+    }
+
+    static Stream<Arguments> customerByEmailSource() {
+        return Stream.of(
+                Arguments.of(RuntimeException.class, null),
+                Arguments.of(null, "email@rambler.ru")
+        );
     }
 }

@@ -103,7 +103,7 @@ public class DealerSaleService {
         List<CarForSale> cars = new ArrayList<>();
 
         carDealerShip.forEach(car -> {
-            car.carsInDealer.forEach(carInDealer -> cars.add((CarForSale) carInDealer));
+            car.carsInDealer.forEach(carInDealer -> cars.add(carMapper.mapCarToCarsForSale(carInDealer)));
         });
 
         return cars.stream()
