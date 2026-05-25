@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: my-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ksPassword
+      MARIADB_DATABASE: mydb
+      MARIADB_USER: kcUser
+      MARIADB_PASSWORD: ksPassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  your-quarkus-app:
+    build: .
+    container_name: my-quarkus-app
+    ports:
+      - "8080:8080"
+    environment:
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:mariadb://mariadb:3306/mydb
+      QUARKUS_DATASOURCE_USERNAME: kcUser
+      QUARKUS_DATASOURCE_PASSWORD: ksPassword
+    depends_on:
+      mariadb:
+        condition: service_started
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
