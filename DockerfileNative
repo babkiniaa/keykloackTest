@@ -1,0 +1,14 @@
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.7
+
+WORKDIR /work
+
+COPY --chmod=755 target/*-runner /work/application
+RUN chown -R 1001:root /work && \
+    chmod -R g+rwX /work
+
+EXPOSE 8080
+USER 1001
+
+ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0"]
+
+
